@@ -1,39 +1,55 @@
-/* --- Steps to work through
-Processing JSON Data
-
-1. Create a new HTML list item
-statusHTML
-
-2. Check the "inoffice" property
-
-3. Get the value for the "name" property; insert it inside the <li> tag
-
-4. Close the <li> tag
-*/
-
+// Work for Employees
 // 1. create an XMLHTTP Request Object
-const xhr = new XMLHttpRequest()
+const xhrEmployees = new XMLHttpRequest()
 
 // 2. create a callback function
-xhr.onreadystatechange = () => {
-  if (xhr.readyState === 4) {
-    const employees = JSON.parse(xhr.responseText)
-    let statusHTML = '<ul class="bulleted">'
+xhrEmployees.onreadystatechange = () => {
+  if (xhrEmployees.readyState === 4) {
+    const employees = JSON.parse(xhrEmployees.responseText)
+    let employeeStatusHTML = '<ul class="bulleted">'
     for (let i = 0; i < employees.length; i++) {
       if (employees[i].inoffice === true) {
-        statusHTML += '<li class="in">'
+        employeeStatusHTML += '<li class="in">'
       } else {
-        statusHTML += '<li class="out">'
+        employeeStatusHTML += '<li class="out">'
       }
-      statusHTML += employees[i].name + '</li>'
+      employeeStatusHTML += employees[i].name + '</li>'
     }
-    statusHTML += '</ul>'
-    document.getElementById('employeeList').innerHTML = statusHTML
+    employeeStatusHTML += '</ul>'
+    document.getElementById('employeeList').innerHTML = employeeStatusHTML
   }
 }
 
 // 3. open a request
-xhr.open('GET', 'data/employees.json')
+xhrEmployees.open('GET', 'data/employees.json')
 
 // 4. send a request
-xhr.send()
+xhrEmployees.send()
+
+// Work for Rooms
+// 1. create an XMLHTTP Request Object
+const xhrRooms = new XMLHttpRequest()
+
+// 2. create a callback function
+xhrRooms.onreadystatechange = () => {
+  if (xhrRooms.readyState === 4) {
+    const rooms = JSON.parse(xhrRooms.responseText)
+    let roomStatusHTML = '<ul class="bulleted">'
+    for (let i = 0; i < rooms.length; i++) {
+      if (rooms[i].available) {
+        roomStatusHTML += '<li class="open">'
+      } else {
+        roomStatusHTML += '<li class="occupied">'
+      }
+      roomStatusHTML += rooms[i].room + '</li>'
+    }
+    roomStatusHTML += '</ul>'
+    document.getElementById('roomList').innerHTML = roomStatusHTML
+  }
+}
+
+// 3. open a request
+xhrRooms.open('GET', 'data/rooms.json')
+
+// 4. send a request
+xhrRooms.send()
